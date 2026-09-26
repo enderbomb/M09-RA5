@@ -7,11 +7,10 @@ public class RotX {
         String msgs[] = { "ABC", "XYZ", "Hola, Mr. calcot", "Perdó, per tu què és?" };
         String msgsXifrats[] = new String[msgs.length];
         int index = 0;
-        System.out.println("\nXifrat\n------");
+        System.out.println("\nXifrat\n--------");
 
         for (int i = 0; i < msgs.length; i++) {
             msgsXifrats[i] = xifraRotX(msgs[i], index);
-            index++;
             System.out.printf("%-23s => %s%n", msgs[i], msgsXifrats[i]);
         }
 

@@ -3,7 +3,8 @@ import java.util.Collections;
 
 public class Monoalfabetic {
     public static String abc ="AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
-    public static char[] alfabetPermutat = permutaAlfabet(abc);
+    public static char[] abecedari = abc.toCharArray();
+    public static char[] alfabetPermutat = permutaAlfabet(abecedari);
     static void main(String[] args) {
         String[] msgs = {"Test 01 àrbitre, coixi, Perímetre", "Test 02 Taüll, DÍA, año","Test 03 Peça, Örrius, Bòvila"};
         ArrayList<String> asd = new ArrayList<>();
@@ -30,10 +31,10 @@ public class Monoalfabetic {
         }
     }
 
-    public static char[] permutaAlfabet(String alfabet) {
+    public static char[] permutaAlfabet(char[] alfabet) {
         ArrayList<Character> arrAbc = new ArrayList<>();
 
-        for (char c : alfabet.toCharArray()) {
+        for (char c : alfabet) {
             arrAbc.add(c);
         }
 

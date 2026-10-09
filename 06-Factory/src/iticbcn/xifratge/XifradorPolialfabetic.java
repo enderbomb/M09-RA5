@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class Polialfabetic {
+public class XifradorPolialfabetic {
     public static String abc ="AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
     public static char[] abecedari = abc.toLowerCase().toCharArray();
     public static char[] permutat = new char[abc.length()];

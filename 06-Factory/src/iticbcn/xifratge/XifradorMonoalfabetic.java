@@ -3,7 +3,8 @@ package iticbcn.xifratge;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Monoalfabetic {
+public class XifradorMonoalfabetic {
+
     public static String abc ="AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
     public static char[] abecedari = abc.toCharArray();
     public static char[] alfabetPermutat = permutaAlfabet(abecedari);

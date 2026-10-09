@@ -92,7 +92,4 @@ public class AES {
         random.nextBytes(nouIV);
         return nouIV;
     }
-
-
-
 }

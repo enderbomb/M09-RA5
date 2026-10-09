@@ -1,6 +1,6 @@
 package iticbcn.xifratge;
 
-public class RotX {
+public class XifradorRotX {
     public static String abc = "AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
     public static char[] majuscules = abc.toCharArray();
     public static char[] minuscules = abc.toLowerCase().toCharArray();

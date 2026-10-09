@@ -1,4 +1,4 @@
 package iticbcn.xifratge;
 
-public class AlgorismePolialfabetic {
+public class AlgorismePolialfabetic extends AlgorismeFactory {
 }

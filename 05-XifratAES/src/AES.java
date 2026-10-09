@@ -39,21 +39,60 @@ public class AES {
         }
     }
     public static byte[] xifraAES(String msg, String clau) throws Exception {
-        byte[] lol =  msg.getBytes(StandardCharsets.UTF_8);
-        System.out.println(lol);
-        for (byte b : lol) {
-            System.out.println(b);
-        }
+        byte[] lol = msg.getBytes(StandardCharsets.UTF_8);
+        iv = generaIv();
+        IvParameterSpec spec = new IvParameterSpec(iv);
+        SecretKeySpec secreto = generaHash(clau);
+        Cipher cipher = Cipher.getInstance(FORMAT_AES);
 
-        IvParameterSpec spec = new IvParameterSpec(lol);
+        cipher.init(Cipher.ENCRYPT_MODE, secreto, spec);
+        byte[] xifrat = cipher.doFinal(lol);
+        byte[] resultat = new byte[iv.length + xifrat.length];
+        System.arraycopy(iv, 0, resultat, 0, iv.length);
+        System.arraycopy(xifrat, 0, resultat, iv.length, xifrat.length);
 
-        System.out.println(spec.hashCode());
-
-        return lol;
+        return resultat;
     }
 
     public static String desxifraAES(byte[] bIVIMsgXifrat, String clau) throws Exception {
-        return "test";
+        byte[] iv2 = extreuIV(bIVIMsgXifrat);
+
+        byte[] msgXifrat = getBytesXifrats(bIVIMsgXifrat);
+
+        IvParameterSpec spec = new IvParameterSpec(iv2);
+
+        SecretKeySpec secreto = generaHash(clau);
+
+        Cipher cipher = Cipher.getInstance(FORMAT_AES);
+        cipher.init(Cipher.DECRYPT_MODE, secreto, spec);
+        byte[] desxifrat = cipher.doFinal(msgXifrat);
+
+        return new String(desxifrat, StandardCharsets.UTF_8);
     }
+
+    public static byte[] extreuIV(byte[] bIVIMsgXifrat) {
+        byte[] iv2 = new byte[MIDA_IV];
+        System.arraycopy(bIVIMsgXifrat, 0, iv2, 0, MIDA_IV);
+        return iv2;
+    }
+
+    public static byte[] getBytesXifrats(byte[] bIVIMsgXifrat) {
+        byte[] msgXifrat = new byte[bIVIMsgXifrat.length - MIDA_IV];
+        System.arraycopy(bIVIMsgXifrat, MIDA_IV, msgXifrat, 0, msgXifrat.length);
+        return msgXifrat;
+    }
+    public static SecretKeySpec generaHash(String password) throws Exception {
+        MessageDigest digest = MessageDigest.getInstance(ALGORISME_HASH);
+        byte[] hash = digest.digest(password.getBytes(StandardCharsets.UTF_8));
+        return new SecretKeySpec(hash, ALGORISME_XIFRAT);
+    }
+    public static byte[] generaIv() {
+        byte[] nouIV = new byte[MIDA_IV];
+        SecureRandom random = new SecureRandom();
+        random.nextBytes(nouIV);
+        return nouIV;
+    }
+
+
 
 }

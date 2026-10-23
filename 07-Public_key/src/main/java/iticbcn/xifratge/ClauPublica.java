@@ -19,6 +19,9 @@ public class ClauPublica {
         return cipher.doFinal(msg.getBytes(StandardCharsets.UTF_8));
     }
     public String desxifraRSA(byte[] msgXifrat, PrivateKey clauPrivada) throws Exception {
-        return null;
+        Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.DECRYPT_MODE, clauPrivada);
+        byte[] byteDesxifrat = cipher.doFinal(msgXifrat);
+        return new String(byteDesxifrat, StandardCharsets.UTF_8);
     }
 }

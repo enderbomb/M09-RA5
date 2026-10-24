@@ -3,38 +3,17 @@ package iticbcn.xifratge;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class XifradorMonoalfabetic {
+public class XifradorMonoalfabetic implements Xifrador {
 
-    public static String abc ="AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
-    public static char[] abecedari = abc.toCharArray();
-    public static char[] alfabetPermutat = permutaAlfabet(abecedari);
-    static void main(String[] args) {
-        String[] msgs = {"Test 01 àrbitre, coixi, Perímetre", "Test 02 Taüll, DÍA, año","Test 03 Peça, Örrius, Bòvila"};
-        ArrayList<String> asd = new ArrayList<>();
-        for (char c : abc.toCharArray()) {
-            System.out.print(c + " ");
-        }
-        System.out.println();
-        for (char c : alfabetPermutat) {
-            System.out.print(c + " ");
-        }
-        System.out.println();
-        System.out.println("Xifratge:");
-        for (String s : msgs) {
+    public static final String abc = "AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
+    public final char[] abecedari = abc.toCharArray();
+    public char[] alfabetPermutat;
 
-            String msg = xifraMonoAlfa(s);
-            System.out.printf("%-34s -> %s\n", s, msg);
-            asd.add(msg);
-        }
-        System.out.println("Desxifratge:");
-        for (String s : asd) {
-
-            String msg = desxifraMonoAlfa(s);
-            System.out.printf("%-34s -> %s\n", s, msg);
-        }
+    public XifradorMonoalfabetic() {
+        alfabetPermutat = permutaAlfabet(abecedari);
     }
 
-    public static char[] permutaAlfabet(char[] alfabet) {
+    public char[] permutaAlfabet(char[] alfabet) {
         ArrayList<Character> arrAbc = new ArrayList<>();
 
         for (char c : alfabet) {
@@ -52,7 +31,7 @@ public class XifradorMonoalfabetic {
         return resultat;
     }
 
-    public static String xifraMonoAlfa(String cadena) {
+    public String xifraMonoAlfa(String cadena) {
         String newText = "";
         for (int i = 0; i < cadena.length(); i++) {
             boolean found = false;
@@ -81,7 +60,7 @@ public class XifradorMonoalfabetic {
         return newText;
     }
 
-    public static String desxifraMonoAlfa(String cadena) {
+    public String desxifraMonoAlfa(String cadena) {
         String newText = "";
         for (int i = 0; i < cadena.length(); i++) {
             boolean found = false;
@@ -108,6 +87,25 @@ public class XifradorMonoalfabetic {
 
         }
         return newText;
+    }
+
+    @Override
+    public TextXifrat xifra(String msg, String clau) throws ClauNoSuportada {
+        if (clau != null) {
+            throw new ClauNoSuportada("Xifratxe monoalfabètic no suporta clau != null");
+        }
+        return new TextXifrat(xifraMonoAlfa(msg).getBytes());
+    }
+
+    @Override
+    public String desxifra(TextXifrat xifrat, String clau) throws ClauNoSuportada {
+        if (clau != null) {
+            throw new ClauNoSuportada("Xifratxe monoalfabètic no suporta clau != null");
+        }
+        if (xifrat == null) {
+            return null;
+        }
+        return desxifraMonoAlfa(xifrat.toString());
     }
 
 }

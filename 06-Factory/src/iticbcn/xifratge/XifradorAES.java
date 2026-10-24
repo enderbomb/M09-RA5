@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 
-public class XifradorAES {
+public class XifradorAES implements Xifrador{
 
     public static final String ALGORISME_XIFRAT = "AES";
     public static final String ALGORISME_HASH = "SHA-256";
@@ -95,4 +95,25 @@ public class XifradorAES {
         random.nextBytes(nouIV);
         return nouIV;
     }
+    @Override
+    public TextXifrat xifra(String msg, String clau) throws ClauNoSuportada {
+        try {
+            return new TextXifrat(xifraAES(msg, clau));
+        } catch (Exception e) {
+            System.err.println("Error de xifrat: " + e.getLocalizedMessage());
+            System.exit(1);
+            return null;
+        }
+    }
+
+    @Override
+    public String desxifra(TextXifrat xifrat, String clau) throws ClauNoSuportada {
+        try {
+            return desxifraAES(xifrat.getBytes(), clau);
+        } catch (Exception e) {
+            System.err.println("Error de desxifrat: " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+
 }

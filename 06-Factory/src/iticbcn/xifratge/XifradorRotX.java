@@ -1,34 +1,11 @@
 package iticbcn.xifratge;
 
-public class XifradorRotX {
-    public static String abc = "AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
-    public static char[] majuscules = abc.toCharArray();
-    public static char[] minuscules = abc.toLowerCase().toCharArray();
+public class XifradorRotX implements Xifrador {
+    public static final String abc = "AÁÀBCÇDEÉÈFGHIÍÌÏJKLMNÑOÓÒPQRSTUÚÙÜVWXYZ";
+    private char[] majuscules = abc.toCharArray();
+    private char[] minuscules = abc.toLowerCase().toCharArray();
 
-    public static void main(String[] args) {
-        String msgs[] = { "ABC", "XYZ", "Hola, Mr. calcot", "Perdó, per tu què és?" };
-        String msgsXifrats[] = new String[msgs.length];
-        int index = 0;
-        System.out.println("\nXifrat\n--------");
-
-        for (int i = 0; i < msgs.length; i++) {
-            msgsXifrats[i] = xifraRotX(msgs[i], index);
-            System.out.printf("(%d)%-23s => %s%n", index, msgs[i], msgsXifrats[i]);
-            index += 2;
-        }
-
-        System.out.println("\nDesxifrat\n---------");
-        index = 0;
-        for (String msg : msgsXifrats) {
-            System.out.printf("(%d)%-23s => %s%n", index, msg, desxifraRotX(msg, index));
-            index += 2;
-        }
-
-        System.out.println("\nMissatge xifrat: " + msgsXifrats[3]);
-        forcaBrutaRotX(msgsXifrats[3]);
-    }
-
-    public static String xifraRotX(String text, int index) {
+    public String xifraRotX(String text, int index) {
         String newText = "";
 
         for (int i = 0; i < text.length(); i++) {
@@ -63,7 +40,7 @@ public class XifradorRotX {
         return newText;
     }
 
-    public static String desxifraRotX(String text, int index) {
+    public String desxifraRotX(String text, int index) {
         String newText = "";
 
         for (int i = 0; i < text.length(); i++) {
@@ -98,9 +75,30 @@ public class XifradorRotX {
         return newText;
     }
 
-    public static void forcaBrutaRotX(String cadenaXifrada) {
-        for (int index = 0; index < majuscules.length; index++) {
-            System.out.printf("(%d)->%s%n", index, desxifraRotX(cadenaXifrada, index));
+    private int validaClau(String clau) throws ClauNoSuportada {
+        try {
+            int n = Integer.parseInt(clau);
+            if (n < 0 || n > 40) {
+                throw new ClauNoSuportada("Clau de RotX ha de ser un sencer de 0 a 40");
+            }
+            return n;
+        } catch (Exception e) {
+            throw new ClauNoSuportada("Clau de RotX ha de ser un sencer de 0 a 40");
         }
+    }
+
+    @Override
+    public TextXifrat xifra(String msg, String clau) throws ClauNoSuportada {
+        int index = validaClau(clau);
+        return new TextXifrat(xifraRotX(msg, index).getBytes());
+    }
+
+    @Override
+    public String desxifra(TextXifrat xifrat, String clau) throws ClauNoSuportada {
+        int index = validaClau(clau);
+        if (xifrat == null) {
+            return null;
+        }
+        return desxifraRotX(xifrat.toString(), index);
     }
 }
